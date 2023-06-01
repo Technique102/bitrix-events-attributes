@@ -1,0 +1,26 @@
+{
+    "name": "technique102/bitrix-events-attributes",
+    "description": "Use the php8 attribute in Bitrix for event handlers",
+    "homepage": "https://github.com/Technique102/bitrix-events-attributes",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "bitrix",
+        "events",
+        "attributes"
+    ],
+    "authors": [
+        {
+            "name": "Evgeny Ponomarev",
+            "email": "technique102@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Technique102\\BitrixEventsAttributes\\": "src/"
+        }
+    }
+}
