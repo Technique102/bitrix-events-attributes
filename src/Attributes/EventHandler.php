@@ -6,7 +6,7 @@ namespace Technique102\BitrixEventsAttributes\Attributes;
 
 use Attribute;
 
-#[Attribute(Attribute::TARGET_METHOD)]
+#[Attribute(Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
 final class EventHandler
 {
     public function __construct(

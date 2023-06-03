@@ -15,9 +15,15 @@ composer require technique102/bitrix-events-attributes
 
 Использование
 -------------------------
-Создадим класс с методом который будет обрабатывать событие OnPageStart модуля main.
+Создадим класс с методами которые будут обрабатывать события.
 
 Пометим метод атрибутом EventHandler с указанием модуля и типа события.
+
+Методов с обработчиками в классе может быть несколько.
+
+Более того один обработчик может вызываться в разных событиях.
+
+Важно помнить, что параметры передаваемые в обработчик могут отличаться в зависимости от события, особенно в событиях старого ядра.
 
 ``` php
 use Technique102\BitrixEventsAttributes\Attributes\EventHandler;
@@ -25,13 +31,19 @@ use Technique102\BitrixEventsAttributes\Attributes\EventHandler;
 class Handlers
 {
     #[EventHandler('main', 'OnPageStart')]
-    public static function handle()
+    public static function handlerOne()
     {
         \Bitrix\Main\Diag\Debug::writeToFile('WORK!!!', '', 'bitrix_log.txt');
     }
+    
+    #[EventHandler('catalog', '\Bitrix\Catalog\Product::OnBeforeUpdate')]
+    #[EventHandler('catalog', '\Bitrix\Catalog\Product::OnAfterAdd')]
+    public static function handlerTwo(\Bitrix\Main\Event $e)
+    {
+        \Bitrix\Main\Diag\Debug::writeToFile($e->getParameters(), '', 'bitrix_log.txt');
+    }
 }
 ```
-Методов обработчиков в классе может быть несколько.
 
 Далее в init.php создаем менеджер событий и добавляем туда наш класс.
 
