@@ -11,13 +11,14 @@ final class EventHandler
 {
     public function __construct(
         private readonly string $moduleId,
-        private readonly string $eventType
+        private readonly string $eventType,
+        private readonly int $sort = 100
     ) {
 
     }
 
     public function add($class, $method): void
     {
-        \Bitrix\Main\EventManager::getInstance()->addEventHandler($this->moduleId, $this->eventType, [$class, $method]);
+        \Bitrix\Main\EventManager::getInstance()->addEventHandler($this->moduleId, $this->eventType, [$class, $method], false, $this->sort);
     }
 }

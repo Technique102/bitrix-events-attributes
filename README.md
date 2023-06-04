@@ -25,15 +25,18 @@ composer require technique102/bitrix-events-attributes
 
 Важно помнить, что параметры передаваемые в обработчик могут отличаться в зависимости от события, особенно в событиях старого ядра.
 
+Так же можно указывать сортировку, по умолчанию 100.
+
 ``` php
 use Technique102\BitrixEventsAttributes\Attributes\EventHandler;
 
 class Handlers
 {
+    #[EventHandler('main', 'OnPageStart', 10)]
     #[EventHandler('main', 'OnPageStart')]
     public static function handlerOne()
     {
-        \Bitrix\Main\Diag\Debug::writeToFile('WORK!!!', '', 'bitrix_log.txt');
+        \Bitrix\Main\Diag\Debug::writeToFile('WORK handlerOne!!!', '', 'bitrix_log.txt');
     }
     
     #[EventHandler('catalog', '\Bitrix\Catalog\Product::OnBeforeUpdate')]
@@ -41,6 +44,12 @@ class Handlers
     public static function handlerTwo(\Bitrix\Main\Event $e)
     {
         \Bitrix\Main\Diag\Debug::writeToFile($e->getParameters(), '', 'bitrix_log.txt');
+    }
+    
+    #[EventHandler('main', 'OnPageStart', 50)]
+    public static function handlerThree(): void
+    {
+        \Bitrix\Main\Diag\Debug::writeToFile('WORK handlerThree!!!', '', 'bitrix_log.txt');
     }
 }
 ```
