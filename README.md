@@ -1,4 +1,8 @@
 # Регистрация обработчиков событий через атрибуты php8 (1С-Битрикс) #
+[![Latest Stable Version](https://poser.pugx.org/technique102/bitrix-events-attributes/v/stable.svg)](https://packagist.org/packages/technique102/bitrix-events-attributes)
+[![Total Downloads](http://poser.pugx.org/technique102/bitrix-events-attributes/downloads)](https://packagist.org/packages/technique102/bitrix-events-attributes)
+[![License](http://poser.pugx.org/technique102/bitrix-events-attributes/license)](https://packagist.org/packages/technique102/bitrix-events-attributes)
+[![PHP Version Require](http://poser.pugx.org/technique102/bitrix-events-attributes/require/php)](https://packagist.org/packages/technique102/bitrix-events-attributes)
 
 Пакет поможет избавиться от классической ситуации при разработке на 1С-Битрикс,
 когда есть файл events.php который подключается в init.php
