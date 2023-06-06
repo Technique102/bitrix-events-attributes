@@ -17,8 +17,9 @@
 composer require technique102/bitrix-events-attributes
 ```
 
-Использование
+Простое использование
 -------------------------
+
 Создадим класс с методами которые будут обрабатывать события.
 
 Пометим метод атрибутом EventHandler с указанием модуля и типа события.
@@ -38,14 +39,14 @@ class Handlers
 {
     #[EventHandler('main', 'OnPageStart', 10)]
     #[EventHandler('main', 'OnPageStart')]
-    public static function handlerOne()
+    public static function handlerOne(): void
     {
         \Bitrix\Main\Diag\Debug::writeToFile('WORK handlerOne!!!', '', 'bitrix_log.txt');
     }
     
     #[EventHandler('catalog', '\Bitrix\Catalog\Product::OnBeforeUpdate')]
     #[EventHandler('catalog', '\Bitrix\Catalog\Product::OnAfterAdd')]
-    public static function handlerTwo(\Bitrix\Main\Event $e)
+    public static function handlerTwo(\Bitrix\Main\Event $e): void
     {
         \Bitrix\Main\Diag\Debug::writeToFile($e->getParameters(), '', 'bitrix_log.txt');
     }
@@ -67,7 +68,40 @@ $eventManager = EventManager::getInstance();
 $eventManager->addEventHandlerClass(Handlers::class);
 $eventManager->boot();
 ```
-Можно добавлять несколько классов.
+
+Можно добавлять сколько угодно классов через метод addEventHandlerClass.
+
+### Использование через настройки модуля ###
+
+Тут почти все то же самое, что и в простом использовании,
+только добавление классов происходит через файл .settings.php в модулях.
+
+Класс с обработчиками событий при этом лежит в модуле.
+
+Создаем в нужном модуле файл .settings.php.
+
+В нем описываем значения для eventHandlerClasses, примерно так:
+
+``` php
+<?php
+return [
+    'eventHandlerClasses' => [
+        'value' => [
+            \Vendor\ModuleName\EventHandlers\OnAfterUserAuthorize::class
+        ],
+        'readonly' => true
+    ]
+];
+```
+
+Класс по структуре точно такой же как и Handlers из примера с простым использованием.
+
+Далее в init.php создаем менеджер событий (если еще не создан)
+только уже без добавления класса руками.
+
+Оба способа работают вместе.
+Подключаются классы из всех модулей, в которых есть описание настройки eventHandlerClasses,
+и следом подключается то что добавлили через $eventManager->addEventHandlerClass() в init.php.
 
 Требования как и при обычном использовании \Bitrix\Main\EventManager::getInstance()->addEventHandler(),
 классы с обработчиками должны быть доступны для вызовов, т.е. подгружены через автолоад модулей или кастомно.
