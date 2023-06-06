@@ -6,6 +6,7 @@ namespace Technique102\BitrixEventsAttributes;
 
 use ReflectionClass;
 use Technique102\BitrixEventsAttributes\Attributes\EventHandler;
+use Technique102\BitrixEventsAttributes\Services\ModuleSettingsService;
 
 final class EventManager
 {
@@ -24,9 +25,13 @@ final class EventManager
         return self::$instance;
     }
 
-    private function __construct()
+    private function __construct(
+        private readonly ModuleSettingsService $moduleSettingsService = new ModuleSettingsService()
+    )
     {
-
+        foreach ($this->moduleSettingsService->getEventHandlerClasses() as $class) {
+            $this->addEventHandlerClass($class);
+        }
     }
 
     /**
